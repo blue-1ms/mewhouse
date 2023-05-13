@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>mewhouse</title>
+</head>
+<body>
+  <h1>welcome to mewhouse</h1>
+  <form id="password-form">
+    <label for="password">Enter Password:</label>
+    <input type="password" id="password" name="password" required>
+    <button type="submit">Submit</button>
+  </form>
+  <div id="content" style="display: none;">
+    <!-- Your blog content goes here -->
+  </div>
+  <script>
+    document.getElementById("password-form").addEventListener("submit", function(event) {
+      event.preventDefault();
+      var password = document.getElementById("password").value;
+      if (password === "mewhouse") {
+        document.getElementById("password-form").style.display = "none";
+        document.getElementById("content").style.display = "block";
+      } else {
+        alert("Invalid password. Please try again.");
+      }
+    });
+  </script>
+</body>
+</html>
