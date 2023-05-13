@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Under Maintenance</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: linear-gradient(to right, pink, cyan, yellow);
+    }
+
+    .container {
+      text-align: center;
+    }
+
+    h1 {
+      font-family: 'Raleway', sans-serif;
+      font-weight: 300;
+      font-style: italic;
+      font-size: 48px;
+      color: black;
+      margin-bottom: 20px;
+      animation: jump 1s infinite alternate;
+    }
+
+    @keyframes jump {
+      0% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-10px);
+      }
+      100% {
+        transform: translateY(0);
+      }
+    }
+
+    p {
+      font-family: 'Raleway', sans-serif;
+      font-weight: 300;
+      font-style: italic;
+      font-size: 24px;
+      color: black;
+    }
+
+    .emoji {
+      font-size: 60px;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Under Maintenance</h1>
+    <p class="emoji">🐇🔧</p>
+    <p>Oops! We're currently hopping into some enhancements to our website.</p>
+    <p>Stay tuned and check back soon for the fur-tastic experience!</p>
+  </div>
+</body>
+</html>
