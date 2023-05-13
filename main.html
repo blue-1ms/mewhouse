@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>mewhouse Blog - Main</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-color: #f4f4f4;
+    }
+    h1 {
+      color: #333;
+    }
+    form {
+      margin-top: 20px;
+    }
+    label {
+      font-weight: bold;
+    }
+    input[type="text"],
+    textarea {
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+      outline: none;
+    }
+    button[type="submit"],
+    button[type="button"] {
+      padding: 10px 20px;
+      margin-top: 10px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      outline: none;
+    }
+    button[type="submit"]:hover,
+    button[type="button"]:hover {
+      background-color: #45a049;
+    }
+    .hidden {
+      display: none;
+    }
+    .guest-mode {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>mewhouse Blog - Main</h1>
+  <div id="post-options" class="hidden">
+    <form id="post-form">
+      <label for="title">Title:</label>
+      <input type="text" id="title" name="title" required>
+      <br>
+      <label for="content">Content:</label>
+      <textarea id="content" name="content" rows="5" required></textarea>
+      <br>
+      <button type="submit">Create Post</button>
+    </form>
+  </div>
+  <div id="posts">
+    <!-- Display existing posts here -->
+  </div>
+  <script>
+    // Function to create a new post
+    function createPost(title, content) {
+      var postElement = document.createElement("div");
+      postElement.classList.add("post");
+
+      var titleElement = document.createElement("h2");
+      titleElement.textContent = title;
+
+      var contentElement = document.createElement("p");
+      contentElement.textContent = content;
+
+      postElement.appendChild(titleElement);
+      postElement.appendChild(contentElement);
+
+      document.getElementById("posts").appendChild(postElement);
+    }
+
+    document.getElementById("post-form").addEventListener("submit", function(event) {
+      event.preventDefault();
+      var title = document.getElementById("title").value;
+      var content = document.getElementById("content").value;
+      createPost(title, content);
+      document.getElementById("title").value = "";
+      document.getElementById("content").value = "";
+    });
+
+    // Check if in guest mode
+    if (window.location.href.includes("guest=true")) {
+      document.getElementById("post-options").classList.add("guest-mode");
+    }
+  </script>
+</body>
+</html>
+
