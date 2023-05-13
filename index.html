@@ -2,16 +2,58 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>mewhouse</title>
+  <title>mewhouse Blog</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-color: #f4f4f4;
+    }
+    h1 {
+      color: #333;
+    }
+    form {
+      margin-top: 20px;
+    }
+    label {
+      font-weight: bold;
+    }
+    input[type="password"] {
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+      outline: none;
+    }
+    button[type="submit"] {
+      padding: 10px 20px;
+      margin-top: 10px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      outline: none;
+    }
+    button[type="submit"]:hover {
+      background-color: #45a049;
+    }
+    .hidden {
+      display: none;
+    }
+  </style>
 </head>
 <body>
-  <h1>welcome to mewhouse</h1>
+  <h1>Welcome to mewhouse Blog</h1>
   <form id="password-form">
     <label for="password">Enter Password:</label>
     <input type="password" id="password" name="password" required>
+    <br>
     <button type="submit">Submit</button>
   </form>
-  <div id="content" style="display: none;">
+  <div id="content" class="hidden">
     <!-- Your blog content goes here -->
   </div>
   <script>
@@ -20,7 +62,7 @@
       var password = document.getElementById("password").value;
       if (password === "mewhouse") {
         document.getElementById("password-form").style.display = "none";
-        document.getElementById("content").style.display = "block";
+        document.getElementById("content").classList.remove("hidden");
       } else {
         alert("Invalid password. Please try again.");
       }
