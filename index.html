@@ -74,7 +74,7 @@
 
     .moonwash,
     .grain,
-    .burrow-lines {
+    .grid-lines {
       position: fixed;
       inset: 0;
       pointer-events: none;
@@ -89,7 +89,7 @@
       animation: moon-drift 11s ease-in-out infinite alternate;
     }
 
-    .burrow-lines {
+    .grid-lines {
       z-index: -2;
       background:
         linear-gradient(90deg, rgba(255, 247, 234, 0.035) 1px, transparent 1px),
@@ -97,7 +97,7 @@
       background-size: 72px 72px;
       mask-image: linear-gradient(to bottom, transparent, black 14%, black 86%, transparent);
       transform: skewY(-5deg);
-      animation: burrow-slide 18s linear infinite;
+      animation: grid-slide 18s linear infinite;
     }
 
     .grain {
@@ -140,44 +140,36 @@
       backdrop-filter: blur(18px);
     }
 
-    .bunny-mark {
+    .status-mark {
       position: relative;
       width: 20px;
       height: 20px;
       flex: 0 0 auto;
     }
 
-    .bunny-mark::before,
-    .bunny-mark::after {
+    .status-mark::before,
+    .status-mark::after {
       position: absolute;
-      top: 0;
-      width: 7px;
-      height: 14px;
-      border-radius: 999px 999px 6px 6px;
+      inset: 2px;
+      border-radius: 50%;
       content: "";
+    }
+
+    .status-mark::before {
+      border: 1px solid rgba(135, 232, 198, 0.45);
+      animation: ring-turn 3.8s linear infinite;
+    }
+
+    .status-mark::after {
+      inset: 6px;
       background: var(--mint);
       box-shadow: 0 0 18px rgba(135, 232, 198, 0.58);
-      transform-origin: bottom center;
     }
 
-    .bunny-mark::before {
-      left: 4px;
-      transform: rotate(-14deg);
-    }
-
-    .bunny-mark::after {
-      right: 4px;
-      transform: rotate(14deg);
-    }
-
-    .bunny-dot {
+    .status-dot {
       position: absolute;
-      right: 3px;
-      bottom: 1px;
-      left: 3px;
-      height: 11px;
+      inset: 3px;
       border-radius: 50%;
-      background: var(--mint);
       box-shadow: 0 0 0 0 rgba(135, 232, 198, 0.46);
       animation: soft-pulse 2.2s ease-out infinite;
     }
@@ -262,7 +254,7 @@
       animation: rise-in 780ms 170ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
     }
 
-    .rabbit-stage {
+    .signal-stage {
       position: relative;
       min-height: 232px;
       overflow: hidden;
@@ -276,7 +268,7 @@
       backdrop-filter: blur(24px);
     }
 
-    .rabbit-stage::before {
+    .signal-stage::before {
       position: absolute;
       right: -26%;
       bottom: -42%;
@@ -288,7 +280,7 @@
       background: radial-gradient(circle, rgba(135, 232, 198, 0.12), transparent 68%);
     }
 
-    .rabbit-stage::after {
+    .signal-stage::after {
       position: absolute;
       top: 22px;
       right: 22px;
@@ -304,181 +296,94 @@
       animation: float-dots 4.8s ease-in-out infinite alternate;
     }
 
-    .mascot {
+    .orbit-system {
       position: absolute;
-      right: clamp(30px, 6vw, 64px);
-      bottom: 22px;
-      width: 154px;
-      height: 176px;
-      filter: drop-shadow(0 26px 38px rgba(0, 0, 0, 0.34));
-      animation: bunny-breathe 3.4s ease-in-out infinite;
+      right: clamp(28px, 6vw, 58px);
+      top: 34px;
+      width: 170px;
+      height: 170px;
+      filter: drop-shadow(0 26px 38px rgba(0, 0, 0, 0.28));
     }
 
-    .ear {
+    .orbit-ring {
       position: absolute;
-      top: 0;
-      width: 44px;
-      height: 100px;
-      border: 1px solid rgba(255, 247, 234, 0.5);
-      border-radius: 999px 999px 28px 28px;
-      background: linear-gradient(180deg, #fff8ee, #eadccd);
-      transform-origin: bottom center;
-    }
-
-    .ear::after {
-      position: absolute;
-      inset: 14px 12px 18px;
-      border-radius: inherit;
-      content: "";
-      background: linear-gradient(180deg, rgba(240, 111, 135, 0.56), rgba(242, 154, 87, 0.2));
-    }
-
-    .ear-left {
-      left: 42px;
-      transform: rotate(-13deg);
-      animation: ear-left 4s ease-in-out infinite;
-    }
-
-    .ear-right {
-      right: 42px;
-      transform: rotate(14deg);
-      animation: ear-right 4.2s ease-in-out infinite;
-    }
-
-    .head {
-      position: absolute;
-      right: 28px;
-      bottom: 22px;
-      left: 28px;
-      height: 112px;
-      border: 1px solid rgba(255, 247, 234, 0.42);
-      border-radius: 52% 52% 46% 46%;
-      background: linear-gradient(155deg, #fff8ee, #e9dfd1);
-    }
-
-    .cheek {
-      position: absolute;
-      bottom: 28px;
-      width: 36px;
-      height: 22px;
+      inset: 0;
+      border: 1px solid rgba(255, 247, 234, 0.18);
       border-radius: 50%;
-      background: rgba(240, 111, 135, 0.26);
+      animation: orbit-turn 9s linear infinite;
     }
 
-    .cheek-left {
-      left: 23px;
+    .orbit-ring:nth-child(2) {
+      inset: 22px;
+      border-color: rgba(135, 232, 198, 0.28);
+      animation-duration: 7.2s;
+      animation-direction: reverse;
     }
 
-    .cheek-right {
-      right: 23px;
+    .orbit-ring:nth-child(3) {
+      inset: 44px;
+      border-color: rgba(240, 111, 135, 0.24);
+      animation-duration: 5.8s;
     }
 
-    .eye {
+    .orbit-ring::after {
       position: absolute;
-      top: 44px;
+      top: 16px;
+      left: 50%;
       width: 9px;
-      height: 12px;
-      border-radius: 50%;
-      background: #16141d;
-      animation: blink 5s infinite;
-    }
-
-    .eye-left {
-      left: 46px;
-    }
-
-    .eye-right {
-      right: 46px;
-    }
-
-    .nose {
-      position: absolute;
-      top: 66px;
-      left: 50%;
-      width: 13px;
-      height: 10px;
-      border-radius: 55% 55% 70% 70%;
-      background: var(--rose);
-      transform: translateX(-50%);
-    }
-
-    .mouth {
-      position: absolute;
-      top: 78px;
-      left: 50%;
-      width: 34px;
-      height: 18px;
-      border-bottom: 2px solid rgba(22, 20, 29, 0.65);
-      border-radius: 0 0 999px 999px;
-      transform: translateX(-50%);
-    }
-
-    .carrot {
-      position: absolute;
-      left: 18px;
-      bottom: 18px;
-      width: 54px;
-      height: 18px;
-      border-radius: 999px 70% 70% 999px;
-      background: linear-gradient(90deg, #f5b064, var(--carrot));
-      transform: rotate(-14deg);
-      box-shadow: 0 10px 22px rgba(242, 154, 87, 0.22);
-    }
-
-    .carrot::before,
-    .carrot::after {
-      position: absolute;
-      right: -11px;
-      width: 19px;
       height: 9px;
-      border-radius: 999px 999px 0 999px;
+      border-radius: 50%;
       content: "";
       background: var(--mint);
-      transform-origin: left center;
+      box-shadow: 0 0 18px rgba(135, 232, 198, 0.66);
     }
 
-    .carrot::before {
-      top: -4px;
-      transform: rotate(-24deg);
+    .orbit-ring:nth-child(2)::after {
+      background: var(--carrot);
+      box-shadow: 0 0 18px rgba(242, 154, 87, 0.56);
     }
 
-    .carrot::after {
-      bottom: -4px;
-      transform: rotate(25deg);
+    .orbit-ring:nth-child(3)::after {
+      background: var(--rose);
+      box-shadow: 0 0 18px rgba(240, 111, 135, 0.58);
     }
 
-    .hop-path {
+    .orbit-core {
       position: absolute;
-      top: 24px;
-      left: 26px;
-      display: grid;
-      grid-template-columns: repeat(4, 34px);
-      gap: 18px;
-      opacity: 0.48;
-      transform: rotate(-11deg);
-    }
-
-    .paw {
-      width: 21px;
-      height: 12px;
-      border: 1px solid rgba(255, 247, 234, 0.28);
+      inset: 58px;
+      border: 1px solid rgba(255, 247, 234, 0.22);
       border-radius: 50%;
-      background: rgba(255, 247, 234, 0.12);
-      animation: paw-glow 3.6s ease-in-out infinite;
+      background:
+        radial-gradient(circle at 38% 32%, rgba(255, 247, 234, 0.42), transparent 18%),
+        radial-gradient(circle, rgba(135, 232, 198, 0.28), rgba(184, 166, 255, 0.14) 62%, transparent 70%);
+      animation: core-breathe 3.6s ease-in-out infinite;
     }
 
-    .paw:nth-child(2) {
-      animation-delay: 240ms;
-      transform: translateY(18px);
+    .scan-stack {
+      position: absolute;
+      bottom: 22px;
+      right: 24px;
+      left: 220px;
+      display: grid;
+      gap: 8px;
     }
 
-    .paw:nth-child(3) {
-      animation-delay: 480ms;
+    .scan-stack i {
+      display: block;
+      height: 5px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, rgba(135, 232, 198, 0.84), rgba(242, 154, 87, 0.28), transparent);
+      animation: scan-line 2.6s ease-in-out infinite;
     }
 
-    .paw:nth-child(4) {
-      animation-delay: 720ms;
-      transform: translateY(18px);
+    .scan-stack i:nth-child(2) {
+      width: 74%;
+      animation-delay: 220ms;
+    }
+
+    .scan-stack i:nth-child(3) {
+      width: 48%;
+      animation-delay: 440ms;
     }
 
     .stage-label {
@@ -699,7 +604,7 @@
       }
     }
 
-    @keyframes burrow-slide {
+    @keyframes grid-slide {
       from {
         background-position: 0 0, 0 0;
       }
@@ -743,51 +648,6 @@
       }
     }
 
-    @keyframes bunny-breathe {
-      0%,
-      100% {
-        transform: translateY(0) rotate(-1deg);
-      }
-
-      50% {
-        transform: translateY(-9px) rotate(1deg);
-      }
-    }
-
-    @keyframes ear-left {
-      0%,
-      100% {
-        transform: rotate(-13deg);
-      }
-
-      50% {
-        transform: rotate(-8deg);
-      }
-    }
-
-    @keyframes ear-right {
-      0%,
-      100% {
-        transform: rotate(14deg);
-      }
-
-      50% {
-        transform: rotate(9deg);
-      }
-    }
-
-    @keyframes blink {
-      0%,
-      90%,
-      100% {
-        transform: scaleY(1);
-      }
-
-      94% {
-        transform: scaleY(0.12);
-      }
-    }
-
     @keyframes float-dots {
       from {
         transform: translateY(0);
@@ -795,17 +655,6 @@
 
       to {
         transform: translateY(12px);
-      }
-    }
-
-    @keyframes paw-glow {
-      0%,
-      100% {
-        opacity: 0.34;
-      }
-
-      50% {
-        opacity: 0.86;
       }
     }
 
@@ -818,6 +667,52 @@
       to {
         transform: scaleX(1);
         filter: saturate(1.22);
+      }
+    }
+
+    @keyframes ring-turn {
+      from {
+        transform: rotate(0);
+      }
+
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    @keyframes orbit-turn {
+      from {
+        transform: rotate(0);
+      }
+
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    @keyframes core-breathe {
+      0%,
+      100% {
+        opacity: 0.72;
+        transform: scale(0.96);
+      }
+
+      50% {
+        opacity: 1;
+        transform: scale(1.04);
+      }
+    }
+
+    @keyframes scan-line {
+      0%,
+      100% {
+        opacity: 0.38;
+        transform: scaleX(0.72);
+      }
+
+      50% {
+        opacity: 1;
+        transform: scaleX(1);
       }
     }
 
@@ -883,25 +778,20 @@
         width: 100%;
       }
 
-      .rabbit-stage {
+      .signal-stage {
         min-height: 250px;
       }
 
-      .mascot {
-        right: 20px;
-        width: 146px;
-        height: 178px;
+      .orbit-system {
+        right: 18px;
+        top: 42px;
+        width: 138px;
+        height: 138px;
       }
 
-      .ear {
-        width: 36px;
-        height: 102px;
-      }
-
-      .head {
-        right: 20px;
-        left: 20px;
-        height: 112px;
+      .scan-stack {
+        right: 18px;
+        left: 204px;
       }
 
       .stage-label {
@@ -935,21 +825,21 @@
   <div class="scene">
     <canvas id="field" aria-hidden="true"></canvas>
     <div class="moonwash" aria-hidden="true"></div>
-    <div class="burrow-lines" aria-hidden="true"></div>
+    <div class="grid-lines" aria-hidden="true"></div>
     <div class="grain" aria-hidden="true"></div>
 
     <main>
       <section class="hero" aria-labelledby="page-title">
         <div class="eyebrow">
-          <span class="bunny-mark" aria-hidden="true"><span class="bunny-dot"></span></span>
-          Maintenance burrow active
+          <span class="status-mark" aria-hidden="true"><span class="status-dot"></span></span>
+          Maintenance window active
         </div>
         <h1 id="page-title">
           <span class="title-line">Mew House</span>
           <span class="title-line">is tuning up.</span>
         </h1>
         <p class="lead">
-          We are quietly polishing the site behind the scenes, smoothing the flow, and getting the next version ready to hop back online.
+          We are quietly polishing the site behind the scenes, smoothing the flow, and getting the next version ready to come back online.
         </p>
         <div class="actions" aria-label="Maintenance details">
           <a class="status-link" href="mailto:hello@mewhouse.com.au">Contact us</a>
@@ -959,25 +849,15 @@
       </section>
 
       <section class="right-rail" aria-label="Maintenance status">
-        <div class="rabbit-stage" aria-label="Rabbit maintenance illustration">
-          <div class="hop-path" aria-hidden="true">
-            <span class="paw"></span>
-            <span class="paw"></span>
-            <span class="paw"></span>
-            <span class="paw"></span>
+        <div class="signal-stage" aria-label="Maintenance signal illustration">
+          <div class="orbit-system" aria-hidden="true">
+            <span class="orbit-ring"></span>
+            <span class="orbit-ring"></span>
+            <span class="orbit-ring"></span>
+            <span class="orbit-core"></span>
           </div>
-          <div class="mascot" aria-hidden="true">
-            <span class="ear ear-left"></span>
-            <span class="ear ear-right"></span>
-            <span class="head">
-              <span class="eye eye-left"></span>
-              <span class="eye eye-right"></span>
-              <span class="cheek cheek-left"></span>
-              <span class="cheek cheek-right"></span>
-              <span class="nose"></span>
-              <span class="mouth"></span>
-            </span>
-            <span class="carrot"></span>
+          <div class="scan-stack" aria-hidden="true">
+            <i></i><i></i><i></i>
           </div>
           <p class="stage-label"><strong>Soft launch prep</strong>Fresh code, tidy paths, and a calmer front door.</p>
         </div>
@@ -1029,7 +909,6 @@
       let width = 0;
       let height = 0;
       let particles = [];
-      let paws = [];
       let animationFrame = 0;
       let lastFrame = 0;
 
@@ -1061,13 +940,6 @@
           };
         });
 
-        const pawCount = Math.max(6, Math.min(12, Math.floor(width / 120)));
-        paws = Array.from({ length: pawCount }, (_, index) => ({
-          x: width * (0.08 + index * 0.085),
-          y: height * (0.78 - Math.sin(index * 0.85) * 0.08),
-          delay: index * 260,
-          flip: index % 2 === 0 ? -1 : 1
-        }));
       }
 
       function drawGrid(time) {
@@ -1137,30 +1009,6 @@
         });
       }
 
-      function drawPawTrail(time) {
-        context.save();
-        paws.forEach((paw) => {
-          const pulse = Math.sin((time - paw.delay) * 0.002) * 0.5 + 0.5;
-          const alpha = 0.08 + pulse * 0.18;
-          context.save();
-          context.translate(paw.x, paw.y + Math.sin(time * 0.0008 + paw.x) * 10);
-          context.rotate(-0.42 * paw.flip);
-          context.globalAlpha = alpha;
-          context.fillStyle = "#fff7ea";
-          context.beginPath();
-          context.ellipse(0, 0, 13, 7, 0, 0, Math.PI * 2);
-          context.fill();
-          context.beginPath();
-          context.ellipse(13 * paw.flip, -8, 5, 3, 0, 0, Math.PI * 2);
-          context.fill();
-          context.beginPath();
-          context.ellipse(5 * paw.flip, -11, 4, 3, 0, 0, Math.PI * 2);
-          context.fill();
-          context.restore();
-        });
-        context.restore();
-      }
-
       function drawMoonSweep(time) {
         const x = (Math.sin(time * 0.00038) * 0.5 + 0.5) * width;
         const gradient = context.createRadialGradient(x, height * 0.32, 0, x, height * 0.32, Math.max(width, height) * 0.55);
@@ -1178,7 +1026,6 @@
         context.clearRect(0, 0, width, height);
         drawMoonSweep(time);
         drawGrid(time);
-        drawPawTrail(time);
         drawParticles(time, delta);
 
         if (!prefersReducedMotion.matches) {
@@ -1219,7 +1066,7 @@
           "Polishing responsive details",
           "Running final launch checks",
           "Tucking assets into place",
-          "Preparing the homepage to hop back"
+          "Preparing the homepage to come back"
         ];
         let offset = 0;
 
