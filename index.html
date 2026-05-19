@@ -1,65 +1,879 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Under Maintenance</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#090a0f">
+  <meta name="description" content="Mew House is temporarily offline while we prepare a sharper, faster experience.">
+  <title>Mew House | Maintenance</title>
   <style>
-    body {
-      margin: 0;
-      overflow: hidden;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      background: linear-gradient(to right, pink, cyan, yellow);
+    :root {
+      color-scheme: dark;
+      --ink: #f6f1e8;
+      --muted: rgba(246, 241, 232, 0.68);
+      --quiet: rgba(246, 241, 232, 0.42);
+      --panel: rgba(12, 14, 20, 0.68);
+      --panel-strong: rgba(19, 22, 31, 0.82);
+      --line: rgba(246, 241, 232, 0.16);
+      --accent: #7be1c7;
+      --accent-2: #f3c86b;
+      --accent-3: #e06a78;
+      --bg: #090a0f;
+      --shadow: 0 28px 90px rgba(0, 0, 0, 0.42);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
 
-    .container {
-      text-align: center;
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      min-height: 100%;
+      background: var(--bg);
+    }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      overflow-x: hidden;
+      color: var(--ink);
+      background:
+        linear-gradient(130deg, rgba(123, 225, 199, 0.16), transparent 32%),
+        linear-gradient(250deg, rgba(224, 106, 120, 0.14), transparent 35%),
+        radial-gradient(circle at 50% 110%, rgba(243, 200, 107, 0.12), transparent 38%),
+        #090a0f;
+    }
+
+    button,
+    input,
+    textarea,
+    select {
+      font: inherit;
+    }
+
+    .scene {
+      position: relative;
+      display: grid;
+      min-height: 100vh;
+      isolation: isolate;
+    }
+
+    #field {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -3;
+    }
+
+    .ambient {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      pointer-events: none;
+      background:
+        linear-gradient(90deg, rgba(246, 241, 232, 0.04) 1px, transparent 1px),
+        linear-gradient(180deg, rgba(246, 241, 232, 0.035) 1px, transparent 1px);
+      background-size: 64px 64px;
+      mask-image: linear-gradient(to bottom, transparent, black 18%, black 78%, transparent);
+      animation: drift-grid 18s linear infinite;
+    }
+
+    .ambient::before,
+    .ambient::after {
+      position: absolute;
+      inset: 0;
+      content: "";
+      pointer-events: none;
+    }
+
+    .ambient::before {
+      background:
+        linear-gradient(115deg, transparent 0 42%, rgba(123, 225, 199, 0.18) 48%, transparent 55%),
+        linear-gradient(245deg, transparent 0 47%, rgba(243, 200, 107, 0.14) 52%, transparent 59%);
+      mix-blend-mode: screen;
+      animation: sweep 9s ease-in-out infinite alternate;
+    }
+
+    .ambient::after {
+      background:
+        repeating-linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.025) 0,
+          rgba(255, 255, 255, 0.025) 1px,
+          transparent 1px,
+          transparent 6px
+        );
+      opacity: 0.32;
+    }
+
+    .noise {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      opacity: 0.18;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E");
+      mix-blend-mode: overlay;
+    }
+
+    main {
+      display: grid;
+      grid-template-columns: minmax(0, 1.08fr) minmax(320px, 0.72fr);
+      gap: clamp(28px, 5vw, 76px);
+      width: min(1180px, calc(100vw - 40px));
+      min-height: 100vh;
+      margin: 0 auto;
+      padding: clamp(28px, 6vw, 72px) 0;
+      align-items: center;
+    }
+
+    .hero {
+      max-width: 760px;
+      animation: rise-in 850ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      min-height: 34px;
+      padding: 0 14px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--muted);
+      background: rgba(9, 10, 15, 0.36);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-size: 0.74rem;
+      backdrop-filter: blur(16px);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    }
+
+    .pulse {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 0 0 rgba(123, 225, 199, 0.52);
+      animation: pulse 2s ease-out infinite;
     }
 
     h1 {
-      font-family: 'Raleway', sans-serif;
-      font-weight: 300;
-      font-style: italic;
-      font-size: 48px;
-      color: black;
-      margin-bottom: 20px;
-      animation: jump 1s infinite alternate;
+      max-width: 760px;
+      margin: 28px 0 22px;
+      font-size: clamp(3.6rem, 8vw, 6.8rem);
+      line-height: 0.94;
+      letter-spacing: 0;
+      text-wrap: balance;
     }
 
-    @keyframes jump {
-      0% {
-        transform: translateY(0);
+    .split-text {
+      display: block;
+      overflow: hidden;
+      vertical-align: bottom;
+    }
+
+    .split-text span {
+      display: inline-block;
+      animation: reveal-word 900ms cubic-bezier(0.16, 1, 0.3, 1) both;
+      transform-origin: left bottom;
+    }
+
+    .split-text:nth-child(2) span {
+      animation-delay: 120ms;
+    }
+
+    .lead {
+      max-width: 600px;
+      margin: 0;
+      color: var(--muted);
+      font-size: clamp(1.08rem, 2vw, 1.34rem);
+      line-height: 1.65;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 14px;
+      margin-top: 34px;
+    }
+
+    .status-link,
+    .ghost-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 0 18px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--ink);
+      text-decoration: none;
+      background: rgba(246, 241, 232, 0.08);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
+    }
+
+    .status-link {
+      border-color: rgba(123, 225, 199, 0.42);
+      background: linear-gradient(135deg, rgba(123, 225, 199, 0.2), rgba(243, 200, 107, 0.1));
+    }
+
+    .status-link:hover,
+    .ghost-button:hover {
+      transform: translateY(-2px);
+      border-color: rgba(246, 241, 232, 0.34);
+      background: rgba(246, 241, 232, 0.12);
+    }
+
+    .meta {
+      color: var(--quiet);
+      font-size: 0.94rem;
+    }
+
+    .console {
+      position: relative;
+      width: min(100%, 430px);
+      justify-self: end;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.07), transparent 36%),
+        var(--panel);
+      box-shadow: var(--shadow), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(26px);
+      overflow: hidden;
+      animation: rise-in 850ms 180ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+    }
+
+    .console::before {
+      position: absolute;
+      inset: 0;
+      content: "";
+      background:
+        linear-gradient(90deg, transparent, rgba(123, 225, 199, 0.2), transparent),
+        linear-gradient(180deg, rgba(246, 241, 232, 0.08), transparent);
+      transform: translateX(-110%);
+      animation: panel-sheen 5.8s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    .console-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      min-height: 56px;
+      padding: 0 18px;
+      border-bottom: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 0.82rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .dots {
+      display: flex;
+      gap: 7px;
+    }
+
+    .dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--accent-3);
+    }
+
+    .dot:nth-child(2) {
+      background: var(--accent-2);
+    }
+
+    .dot:nth-child(3) {
+      background: var(--accent);
+    }
+
+    .console-body {
+      display: grid;
+      gap: 20px;
+      padding: 22px;
+    }
+
+    .metric {
+      display: grid;
+      gap: 10px;
+    }
+
+    .metric-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .meter {
+      height: 10px;
+      border: 1px solid rgba(246, 241, 232, 0.14);
+      border-radius: 999px;
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .meter span {
+      display: block;
+      width: 77%;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2), var(--accent-3));
+      animation: meter-flow 3.2s ease-in-out infinite alternate;
+      transform-origin: left;
+    }
+
+    .readout {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .tile {
+      min-height: 104px;
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.045);
+    }
+
+    .tile strong {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--ink);
+      font-size: 1.7rem;
+      line-height: 1;
+      letter-spacing: 0;
+    }
+
+    .tile span {
+      color: var(--quiet);
+      font-size: 0.82rem;
+      line-height: 1.45;
+    }
+
+    .feed {
+      display: grid;
+      gap: 10px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .feed li {
+      position: relative;
+      min-height: 40px;
+      padding: 10px 12px 10px 32px;
+      border: 1px solid rgba(246, 241, 232, 0.1);
+      border-radius: 8px;
+      color: var(--muted);
+      background: rgba(9, 10, 15, 0.28);
+      font-size: 0.9rem;
+      line-height: 1.35;
+    }
+
+    .feed li::before {
+      position: absolute;
+      top: 16px;
+      left: 13px;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      content: "";
+      background: var(--accent);
+      box-shadow: 0 0 18px rgba(123, 225, 199, 0.72);
+    }
+
+    .signature {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      color: var(--quiet);
+      font-size: 0.84rem;
+    }
+
+    .signal {
+      display: inline-grid;
+      grid-template-columns: repeat(5, 4px);
+      align-items: end;
+      gap: 4px;
+      height: 22px;
+    }
+
+    .signal i {
+      display: block;
+      width: 4px;
+      border-radius: 99px;
+      background: var(--accent);
+      animation: bars 1.3s ease-in-out infinite;
+    }
+
+    .signal i:nth-child(1) {
+      height: 8px;
+    }
+
+    .signal i:nth-child(2) {
+      height: 14px;
+      animation-delay: 120ms;
+      background: var(--accent-2);
+    }
+
+    .signal i:nth-child(3) {
+      height: 20px;
+      animation-delay: 240ms;
+      background: var(--accent-3);
+    }
+
+    .signal i:nth-child(4) {
+      height: 13px;
+      animation-delay: 360ms;
+      background: var(--accent);
+    }
+
+    .signal i:nth-child(5) {
+      height: 18px;
+      animation-delay: 480ms;
+      background: var(--accent-2);
+    }
+
+    @keyframes drift-grid {
+      from {
+        background-position: 0 0, 0 0;
       }
-      50% {
-        transform: translateY(-10px);
+
+      to {
+        background-position: 64px 64px, 64px 64px;
       }
+    }
+
+    @keyframes sweep {
+      from {
+        opacity: 0.42;
+        transform: translate3d(-3%, -2%, 0) scale(1);
+      }
+
+      to {
+        opacity: 0.86;
+        transform: translate3d(3%, 2%, 0) scale(1.05);
+      }
+    }
+
+    @keyframes pulse {
+      70% {
+        box-shadow: 0 0 0 12px rgba(123, 225, 199, 0);
+      }
+
       100% {
+        box-shadow: 0 0 0 0 rgba(123, 225, 199, 0);
+      }
+    }
+
+    @keyframes reveal-word {
+      from {
+        opacity: 0;
+        transform: translateY(105%) rotate(3deg);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0) rotate(0);
+      }
+    }
+
+    @keyframes rise-in {
+      from {
+        opacity: 0;
+        transform: translateY(24px);
+      }
+
+      to {
+        opacity: 1;
         transform: translateY(0);
       }
     }
 
-    p {
-      font-family: 'Raleway', sans-serif;
-      font-weight: 300;
-      font-style: italic;
-      font-size: 24px;
-      color: black;
+    @keyframes panel-sheen {
+      0%,
+      42% {
+        transform: translateX(-115%);
+      }
+
+      72%,
+      100% {
+        transform: translateX(115%);
+      }
     }
 
-    .emoji {
-      font-size: 60px;
-      margin-bottom: 20px;
+    @keyframes meter-flow {
+      from {
+        transform: scaleX(0.68);
+        filter: saturate(0.9);
+      }
+
+      to {
+        transform: scaleX(1);
+        filter: saturate(1.24);
+      }
+    }
+
+    @keyframes bars {
+      0%,
+      100% {
+        transform: scaleY(0.58);
+        opacity: 0.56;
+      }
+
+      50% {
+        transform: scaleY(1);
+        opacity: 1;
+      }
+    }
+
+    @media (max-width: 820px) {
+      main {
+        grid-template-columns: 1fr;
+        width: min(100% - 28px, 640px);
+        min-height: auto;
+        padding: 44px 0;
+      }
+
+      h1 {
+        font-size: clamp(3.2rem, 16vw, 5.6rem);
+      }
+
+      .console {
+        justify-self: stretch;
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .actions {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .status-link,
+      .ghost-button {
+        width: 100%;
+      }
+
+      .readout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 1ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 1ms !important;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Under Maintenance</h1>
-    <p class="emoji">🐇🔧</p>
-    <p>Oops! We're currently hopping into some enhancements to our website.</p>
-    <p>Stay tuned and check back soon for the fur-tastic experience!</p>
+  <div class="scene">
+    <canvas id="field" aria-hidden="true"></canvas>
+    <div class="ambient" aria-hidden="true"></div>
+    <div class="noise" aria-hidden="true"></div>
+
+    <main>
+      <section class="hero" aria-labelledby="page-title">
+        <div class="eyebrow"><span class="pulse" aria-hidden="true"></span>Maintenance window active</div>
+        <h1 id="page-title">
+          <span class="split-text"><span>Mew House</span></span>
+          <span class="split-text"><span>is tuning up.</span></span>
+        </h1>
+        <p class="lead">
+          We are refining the site behind the scenes so the next visit feels faster, sharper, and more polished.
+          The front door will reopen shortly.
+        </p>
+        <div class="actions" aria-label="Maintenance details">
+          <a class="status-link" href="mailto:hello@mewhouse.com.au">Contact us</a>
+          <button class="ghost-button" type="button" data-refresh>Check again</button>
+          <span class="meta" data-local-time>Syncing local time...</span>
+        </div>
+      </section>
+
+      <aside class="console" aria-label="Maintenance status">
+        <div class="console-header">
+          <span>Live maintenance deck</span>
+          <span class="dots" aria-hidden="true">
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+          </span>
+        </div>
+        <div class="console-body">
+          <div class="metric">
+            <div class="metric-top">
+              <span>Upgrade progress</span>
+              <strong data-progress>77%</strong>
+            </div>
+            <div class="meter" aria-hidden="true"><span></span></div>
+          </div>
+
+          <div class="readout">
+            <div class="tile">
+              <strong data-clock>--:--</strong>
+              <span>Current Sydney time</span>
+            </div>
+            <div class="tile">
+              <strong>Online soon</strong>
+              <span>Expected return as soon as checks are complete</span>
+            </div>
+          </div>
+
+          <ul class="feed">
+            <li data-feed-item>Refreshing interface details</li>
+            <li data-feed-item>Optimising page speed and stability</li>
+            <li data-feed-item>Running final launch checks</li>
+          </ul>
+
+          <div class="signature">
+            <span>mewhouse.com.au</span>
+            <span class="signal" aria-hidden="true">
+              <i></i><i></i><i></i><i></i><i></i>
+            </span>
+          </div>
+        </div>
+      </aside>
+    </main>
   </div>
+
+  <script>
+    (() => {
+      const canvas = document.querySelector("#field");
+      const context = canvas.getContext("2d", { alpha: true });
+      const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+      const pointer = { x: 0.5, y: 0.5, active: false };
+      const colors = ["#7be1c7", "#f3c86b", "#e06a78", "#f6f1e8"];
+      let width = 0;
+      let height = 0;
+      let particles = [];
+      let animationFrame = 0;
+      let lastFrame = 0;
+
+      function resize() {
+        const pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+        width = window.innerWidth;
+        height = window.innerHeight;
+        canvas.width = Math.floor(width * pixelRatio);
+        canvas.height = Math.floor(height * pixelRatio);
+        canvas.style.width = `${width}px`;
+        canvas.style.height = `${height}px`;
+        context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+        seedParticles();
+      }
+
+      function seedParticles() {
+        const particleCount = prefersReducedMotion.matches ? 34 : Math.min(110, Math.max(62, Math.floor(width * height / 15500)));
+        particles = Array.from({ length: particleCount }, (_, index) => {
+          const angle = Math.random() * Math.PI * 2;
+          const speed = 0.12 + Math.random() * 0.42;
+          return {
+            x: Math.random() * width,
+            y: Math.random() * height,
+            vx: Math.cos(angle) * speed,
+            vy: Math.sin(angle) * speed,
+            radius: 0.75 + Math.random() * 1.9,
+            color: colors[index % colors.length],
+            phase: Math.random() * Math.PI * 2
+          };
+        });
+      }
+
+      function drawGrid(time) {
+        const spacing = Math.max(52, Math.min(86, width / 16));
+        const offset = (time * 0.012) % spacing;
+        context.save();
+        context.globalAlpha = 0.2;
+        context.strokeStyle = "#f6f1e8";
+        context.lineWidth = 1;
+
+        for (let x = -spacing; x <= width + spacing; x += spacing) {
+          context.beginPath();
+          context.moveTo(x + offset, 0);
+          context.lineTo(x - height * 0.18 + offset, height);
+          context.stroke();
+        }
+
+        for (let y = -spacing; y <= height + spacing; y += spacing) {
+          context.beginPath();
+          context.moveTo(0, y + offset);
+          context.lineTo(width, y + width * 0.18 + offset);
+          context.stroke();
+        }
+
+        context.restore();
+      }
+
+      function drawParticles(time, delta) {
+        const influenceX = (pointer.x - 0.5) * 0.14;
+        const influenceY = (pointer.y - 0.5) * 0.14;
+
+        particles.forEach((particle, index) => {
+          if (!prefersReducedMotion.matches) {
+            particle.x += (particle.vx + influenceX) * delta;
+            particle.y += (particle.vy + influenceY) * delta;
+          }
+
+          if (particle.x < -20) particle.x = width + 20;
+          if (particle.x > width + 20) particle.x = -20;
+          if (particle.y < -20) particle.y = height + 20;
+          if (particle.y > height + 20) particle.y = -20;
+
+          const breathe = 0.62 + Math.sin(time * 0.0012 + particle.phase) * 0.38;
+          context.beginPath();
+          context.fillStyle = particle.color;
+          context.globalAlpha = 0.36 + breathe * 0.22;
+          context.arc(particle.x, particle.y, particle.radius + breathe * 0.8, 0, Math.PI * 2);
+          context.fill();
+
+          for (let i = index + 1; i < particles.length; i += 1) {
+            const other = particles[i];
+            const dx = particle.x - other.x;
+            const dy = particle.y - other.y;
+            const distance = Math.hypot(dx, dy);
+
+            if (distance < 132) {
+              context.beginPath();
+              context.strokeStyle = particle.color;
+              context.globalAlpha = (1 - distance / 132) * 0.2;
+              context.lineWidth = 1;
+              context.moveTo(particle.x, particle.y);
+              context.lineTo(other.x, other.y);
+              context.stroke();
+            }
+          }
+        });
+      }
+
+      function drawScanner(time) {
+        const y = (Math.sin(time * 0.00045) * 0.5 + 0.5) * height;
+        const gradient = context.createLinearGradient(0, y - 70, 0, y + 70);
+        gradient.addColorStop(0, "rgba(123, 225, 199, 0)");
+        gradient.addColorStop(0.48, "rgba(123, 225, 199, 0.18)");
+        gradient.addColorStop(0.52, "rgba(243, 200, 107, 0.12)");
+        gradient.addColorStop(1, "rgba(224, 106, 120, 0)");
+        context.fillStyle = gradient;
+        context.globalAlpha = 1;
+        context.fillRect(0, y - 70, width, 140);
+      }
+
+      function render(time) {
+        const delta = Math.min(2.4, Math.max(0.6, (time - lastFrame) / 16.67 || 1));
+        lastFrame = time;
+        context.clearRect(0, 0, width, height);
+        drawGrid(time);
+        drawScanner(time);
+        drawParticles(time, delta);
+
+        if (!prefersReducedMotion.matches) {
+          animationFrame = window.requestAnimationFrame(render);
+        }
+      }
+
+      function startAnimation() {
+        window.cancelAnimationFrame(animationFrame);
+        lastFrame = performance.now();
+        render(lastFrame);
+        if (!prefersReducedMotion.matches) {
+          animationFrame = window.requestAnimationFrame(render);
+        }
+      }
+
+      function updateClock() {
+        const clock = document.querySelector("[data-clock]");
+        const localTime = document.querySelector("[data-local-time]");
+        const now = new Date();
+        const sydneyTime = new Intl.DateTimeFormat("en-AU", {
+          timeZone: "Australia/Sydney",
+          hour: "2-digit",
+          minute: "2-digit",
+          hourCycle: "h23"
+        }).format(now);
+        const localLabel = new Intl.DateTimeFormat("en-AU", {
+          weekday: "short",
+          hour: "numeric",
+          minute: "2-digit"
+        }).format(now);
+
+        clock.textContent = sydneyTime;
+        localTime.textContent = `Last checked ${localLabel}`;
+      }
+
+      function rotateFeed() {
+        const items = Array.from(document.querySelectorAll("[data-feed-item]"));
+        const messages = [
+          "Refreshing interface details",
+          "Optimising page speed and stability",
+          "Running final launch checks",
+          "Polishing the mobile experience",
+          "Warming up the production route"
+        ];
+        let offset = 0;
+
+        window.setInterval(() => {
+          offset = (offset + 1) % messages.length;
+          items.forEach((item, index) => {
+            item.textContent = messages[(offset + index) % messages.length];
+          });
+        }, 4200);
+      }
+
+      function bindEvents() {
+        window.addEventListener("resize", resize, { passive: true });
+        window.addEventListener("pointermove", (event) => {
+          pointer.x = event.clientX / Math.max(1, width);
+          pointer.y = event.clientY / Math.max(1, height);
+          pointer.active = true;
+        }, { passive: true });
+
+        window.addEventListener("pointerleave", () => {
+          pointer.x = 0.5;
+          pointer.y = 0.5;
+          pointer.active = false;
+        });
+
+        document.querySelector("[data-refresh]").addEventListener("click", () => {
+          updateClock();
+          document.querySelector("[data-refresh]").animate(
+            [
+              { transform: "translateY(0)" },
+              { transform: "translateY(-2px)" },
+              { transform: "translateY(0)" }
+            ],
+            { duration: 380, easing: "cubic-bezier(.2,.8,.2,1)" }
+          );
+        });
+
+        prefersReducedMotion.addEventListener("change", () => {
+          resize();
+          startAnimation();
+        });
+      }
+
+      resize();
+      bindEvents();
+      updateClock();
+      rotateFeed();
+      startAnimation();
+      window.setInterval(updateClock, 30000);
+    })();
+  </script>
 </body>
 </html>
