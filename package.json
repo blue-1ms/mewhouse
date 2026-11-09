@@ -3,6 +3,7 @@
   "private": true,
   "scripts": {
     "build": "esbuild card.jsx --bundle --minify --jsx=automatic --define:process.env.NODE_ENV=\"\\\"production\\\"\" --outfile=assets/card.js --legal-comments=linked",
+    "postbuild": "node scripts/version-assets.mjs",
     "preview": "python3 -m http.server 4173 --bind 127.0.0.1"
   },
   "dependencies": { "react": "18.3.1", "react-dom": "18.3.1" },
