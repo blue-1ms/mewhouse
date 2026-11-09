@@ -4,8 +4,7 @@ Static GitHub Pages site. All runtime scripts, styles, and images are served loc
 
 - `index.html`: page structure
 - `styles.css`: layout and responsive sizing
-- `background.js`: custom approximate background, not the official Chroma Current
-- `card.jsx`: official Holo Card configuration (Mew + glitter)
+- `card.jsx`: official Gradient ASCII (default Atmosphere) and Holo Card (Mew + glitter)
 - `vendor/react-bits/`: upstream component, stylesheet, image and license
 - `assets/card.js`, `assets/card.css`: bundled runtime, including React
 

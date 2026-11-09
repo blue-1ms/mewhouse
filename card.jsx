@@ -1,6 +1,9 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import HoloCard from './vendor/react-bits/HoloCard.jsx';
+import GradientASCII from './vendor/react-bits/GradientASCII.jsx';
+
+createRoot(document.getElementById('background-root')).render(<GradientASCII />);
 
 createRoot(document.getElementById('card-root')).render(
   <HoloCard
